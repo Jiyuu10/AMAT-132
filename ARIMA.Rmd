@@ -37,10 +37,10 @@ Print the models
 print(active_power_model)
 print(wind_speed_model)
 
-n_periods <- 4464
+n_periods <- 144
 
-active_power_forecast <- forecast(active_power_model, h = 4464)
-wind_speed_forecast <- forecast(wind_speed_model, h = 4464)
+active_power_forecast <- forecast(active_power_model, h = 144)
+wind_speed_forecast <- forecast(wind_speed_model, h = 144)
 ```
 
 Plot the active power
