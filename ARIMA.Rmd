@@ -1,0 +1,60 @@
+```{r }
+library(ggplot2)
+library(forecast)
+library(tseries)
+library(knitr)
+library(rmarkdown)
+
+data <- read.csv('C:/Users/Andre/Downloads/T1.csv')
+```
+
+Convert the columns to time series
+
+```{r }
+active_power <- ts(data$`LV.ActivePower..kW.`)
+wind_speed <- ts(data$`Wind.Speed..m.s.`)
+```
+
+Fit an ARIMA model to the active power
+
+```{r }
+active_power_model <- auto.arima(active_power)
+print(active_power_model)
+checkresiduals(active_power_model)
+```
+
+Fit an ARIMA model to the wind speed
+
+```{r }
+wind_speed_model <- auto.arima(wind_speed)
+print(wind_speed_model)
+checkresiduals(wind_speed_model)
+```
+
+Print the models
+
+```{r }
+print(active_power_model)
+print(wind_speed_model)
+
+n_periods <- 4464
+
+active_power_forecast <- forecast(active_power_model, h = 4464)
+wind_speed_forecast <- forecast(wind_speed_model, h = 4464)
+```
+
+Plot the active power
+
+```{r }
+autoplot(active_power_forecast) +
+  ggtitle("Forecast of LV ActivePower (kW)") +
+  xlab("Time") + ylab("LV ActivePower (kW)")
+```
+
+Plot the wind speed
+
+```{r }
+autoplot(wind_speed_forecast) +
+  ggtitle("Forecast of Wind Speed (m/s)") +
+  xlab("Time") + ylab("Wind Speed (m/s)")
+```
